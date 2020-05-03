@@ -1,0 +1,4 @@
+__pycache__
+*.png
+*.xlsc
+.ipynb_checkpoints/
