@@ -8,6 +8,8 @@ pip install pandas Pillow xlrd tqdm
 
 ## Notes
 
+The font locations assume MacOS defaults and would need to be updated for any other system.
+
 Inspired by the thumbnails used by [Empirical China](https://github.com/empiricalchina).
 
 Code is under the MIT License.
