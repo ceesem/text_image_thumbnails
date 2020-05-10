@@ -48,9 +48,9 @@ def build_fonts(font_name, font_location, size=18, title_size=20, title_index=2,
         title font, author font, and text font
     """
     font_loc = f"{font_location}{font_name}"
-    fnt_title = ImageFont.truetype(font_loc, size=title_size, index=title_index)
-    fnt_author = ImageFont.truetype(font_loc, size=size, index=author_index)
-    fnt_text = ImageFont.truetype(font_loc, size=size, index=regular_index)
+    fnt_title = ImageFont.truetype(font_loc, size=title_size, index=title_index, encoding='utf-8')
+    fnt_author = ImageFont.truetype(font_loc, size=size, index=author_index, encoding='utf-8')
+    fnt_text = ImageFont.truetype(font_loc, size=size, index=regular_index, encoding='utf-8')
     return fnt_title, fnt_author, fnt_text
 
 
@@ -187,7 +187,11 @@ def thumbnail_image(title,
                                                          title_index=title_font_style,
                                                          author_index=author_font_style,
                                                          regular_index=text_font_style)
-    tfc = [(title, title_font, True, line_spacing),
-           (authors, author_font, True, line_spacing),
-           (abstract, abstract_font, False, line_spacing)]
+    tfc = [(text_cleanup(title), title_font, True, line_spacing),
+           (text_cleanup(authors), author_font, True, line_spacing),
+           (text_cleanup(abstract), abstract_font, False, line_spacing)]
     return assemble_image(tfc, image_width, horizontal_padding, vertical_padding, section_spacing)
+
+def text_cleanup(text):
+    text = re.sub('‐','-', text)
+    return text
