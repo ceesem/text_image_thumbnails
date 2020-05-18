@@ -2,6 +2,7 @@ import os
 import re
 import textwrap
 from PIL import Image, ImageDraw, ImageFont
+from pandas import isna
 
 try:
     FONT_DIRS = {
@@ -23,7 +24,16 @@ def simple_filename(title, img_dir, max_words=10):
     return f"{img_dir}/{title_s}.png"
 
 
-def make_author_string(author_list, use_oxford=True):
+def make_author_string(author_list, twitter_list=None, use_oxford=True):
+    if twitter_list is not None:
+        new_author_list = []
+        for author, handle in zip(author_list, twitter_list):
+            if not isna(handle):
+                new_author_list.append(f"{author} ({handle})")
+            else:
+                new_author_list.append(author)
+        author_list = new_author_list
+
     if len(author_list) == 1:
         return author_list[0]
     if len(author_list) == 2:
