@@ -22,6 +22,7 @@ WIDTH = 1000
 @click.option("--abstract_column", "-A", default=ABSTRACT_COLUMN)
 @click.option("--author_column_contains", "-au", default=AUTHOR_COLUMN_CONTAINS)
 @click.option("--thumbnail_directory", "-d", default=THUMBNAIL_DIRECTORY)
+@click.option("--use_oxford", "-ox", default=False)
 def generate_thumbnails(
     filename,
     min_height,
@@ -30,6 +31,7 @@ def generate_thumbnails(
     abstract_column,
     author_column_contains,
     thumbnail_directory,
+    use_oxford,
 ):
     data = pd.read_csv(filename)
 
@@ -41,7 +43,7 @@ def generate_thumbnails(
     author_list = []
     for _, row in data[author_columns].iterrows():
         auths = row[~pd.isna(row)].tolist()
-        author_list.append(make_author_string(auths))
+        author_list.append(make_author_string(auths, use_oxford=use_oxford))
 
     title_list = data[title_column].tolist()
     abstract_list = data[abstract_column].tolist()
