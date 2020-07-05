@@ -82,6 +82,7 @@ def generate_thumbnails(
         batch_dir = f"batch_{str(datetime.date.today()).replace('-', '_')}"
     else:
         batch_dir = batch_name
+
     if not os.path.exists(f"{thumbnail_directory}/{batch_dir}"):
         os.mkdir(f"{thumbnail_directory}/{batch_dir}")
 
@@ -119,8 +120,9 @@ def generate_thumbnails(
 
     if save_author_string:
         data["authors_with_handles"] = author_list_with_handles
-        fn = filename.split(".")
-        out_name = f"{fn[0]}_with_tweets.csv"
+        pure_filename = os.path.split(filename)[-1]
+        fn = pure_filename.split(".")
+        out_name = f"{thumbnail_directory}/{batch_dir}/{fn[-2].replace('/','')}_with_tweets.csv"
         data.to_csv(out_name)
         print(f"Data saved to {out_name}")
     return
